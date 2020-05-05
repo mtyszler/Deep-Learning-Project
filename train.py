@@ -1,7 +1,8 @@
 '''
 Python script to train a neural network to predict the class of a flower image
 
-usage: train.py [-h] [--save_directory SAVE_DIRECTORY] [--arch ARCH]
+usage: train.py [-h] [--save_directory SAVE_DIRECTORY]
+                [--arch {densenet,resnet,alexnet,vgg}]
                 [--learning_rate LEARNING_RATE] [--hidden_units HIDDEN_UNITS]
                 [--epochs EPOCHS] [--gpu]
                 data_directory
@@ -17,9 +18,12 @@ optional arguments:
   --save_directory SAVE_DIRECTORY
                         folder to save the model checkpoints
                         (train_checkpoint.pth). Default current folder
-  --arch ARCH           Base model architecture. Default is densenet121. Full
-                        list at https://pytorch.org/docs/master/torchvision/mo
-                        dels.html
+  --arch {densenet,resnet,alexnet,vgg}
+                        Base model architecture. Default is densenet
+                        (densenet121), one of densenet, resnet, alexnet, vgg.
+                        Respectively (densenet121, resnet18, alexnet,
+                        vgg11_bn). Details at at https://pytorch.org/docs/mast
+                        er/torchvision/models.html
   --learning_rate LEARNING_RATE
                         Learning rate. Default = 0.003
   --hidden_units HIDDEN_UNITS
