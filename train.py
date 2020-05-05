@@ -56,7 +56,7 @@ parser.add_argument('--save_directory', default = "",
 parser.add_argument('--arch', default = 'densenet121',
                     help='Base model architecture. Default is densenet121. Full list at https://pytorch.org/docs/master/torchvision/models.html')
 
-parser.add_argument('--learning_rate', default = 0.003, type = int,
+parser.add_argument('--learning_rate', default = 0.003, type = float,
                     help='Learning rate. Default = 0.003')
 
 parser.add_argument('--hidden_units', default = 512, type = int,
