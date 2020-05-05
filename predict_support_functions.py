@@ -113,7 +113,7 @@ def predict(image_path, model, topk, device, category_names):
 def parse_dictionary(json_dictionary, classes_dictionary):
     
 
-    with open('cat_to_name.json', 'r') as f:
+    with open(json_dictionary, 'r') as f:
         cat_to_name = json.load(f)
     
     ## read and prep mapping from classes to idx:
