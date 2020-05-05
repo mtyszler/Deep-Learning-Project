@@ -128,8 +128,10 @@ for param in model.parameters():
 
 ####################################
 # create a new classifier
+n_output_classes = len(train_data.class_to_idx)
 model.classifier = model_classifier(first_classifier_input = model.classifier.in_features, 
-                                    hidden_units = args.hidden_units)
+                                    hidden_units = args.hidden_units,
+                                    output_classes = n_output_classes)
  
 ####################################
 # Prep Training
@@ -207,6 +209,7 @@ for epoch in keep_awake(range(epochs)):
             checkpoint = {
               'base_model': args.arch,
               'hidden_units': args.hidden_units,
+              'n_output_classes': n_output_classes,
               'steps': steps, 
               'validation accuracy': accuracy,              
               'optimizer': optimizer.state_dict(),
@@ -226,6 +229,7 @@ print("Training is finished")
 checkpoint = {
   'base_model': args.arch,
   'hidden_units': args.hidden_units,
+  'n_output_classes': n_output_classes,
   'steps': steps, 
   'validation accuracy': accuracy,              
   'optimizer': optimizer.state_dict(),

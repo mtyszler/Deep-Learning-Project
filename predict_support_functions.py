@@ -53,7 +53,8 @@ def load_checkpoint(filepath, device):
     
     # re-build untrained classifier
     model.classifier = model_classifier(first_classifier_input = model.classifier.in_features, 
-                                    hidden_units = checkpoint['hidden_units'])
+                                    hidden_units = checkpoint['hidden_units'],
+                                    output_classes = checkpoint['n_output_classes'])
    
     # load model state:
     model.load_state_dict(checkpoint['state_dict'])
