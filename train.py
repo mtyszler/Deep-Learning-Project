@@ -37,7 +37,7 @@ from torchvision import datasets, transforms, models
 import argparse
 
 from workspace_utils import keep_awake
-from create_classifier import model_classifier
+from create_classifier import model_classifier, initialize_model
 
 ###############################
 # parse input arguments
@@ -53,8 +53,8 @@ parser.add_argument('--save_directory', default = "",
                     help='folder to save the model checkpoints (train_checkpoint.pth). Default current folder')
 
 
-parser.add_argument('--arch', default = 'densenet121',
-                    help='Base model architecture. Default is densenet121. Full list at https://pytorch.org/docs/master/torchvision/models.html')
+parser.add_argument('--arch', default = 'densenet', choices = ['densenet','resnet','alexnet','vgg'],
+                    help='Base model architecture. Default is densenet (densenet121), one of densenet, resnet, alexnet, vgg. Respectively (densenet121, resnet18, alexnet, vgg11_bn). Details at at https://pytorch.org/docs/master/torchvision/models.html')
 
 parser.add_argument('--learning_rate', default = 0.003, type = float,
                     help='Learning rate. Default = 0.003')
@@ -119,7 +119,8 @@ validloader = torch.utils.data.DataLoader(valid_data, batch_size=64)
 
 ####################################
 # load pre-trained model:
-model = eval("models.{}(pretrained=True)".format(args.arch))
+#model = eval("models.{}(pretrained=True)".format(args.arch))
+model, first_classifier_input = initialize_model(args.arch)
 
 # Freeze parameters so we don't backprop through them
 for param in model.parameters():
@@ -129,7 +130,7 @@ for param in model.parameters():
 ####################################
 # create a new classifier
 n_output_classes = len(train_data.class_to_idx)
-model.classifier = model_classifier(first_classifier_input = model.classifier.in_features, 
+model.classifier = model_classifier(first_classifier_input = first_classifier_input, 
                                     hidden_units = args.hidden_units,
                                     output_classes = n_output_classes)
  

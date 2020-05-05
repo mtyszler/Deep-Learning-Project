@@ -10,7 +10,7 @@ from torchvision import models
 from PIL import Image
 from torchvision import transforms
 
-from create_classifier import model_classifier
+from create_classifier import model_classifier, initialize_model
 
 import json
 
@@ -45,14 +45,15 @@ def load_checkpoint(filepath, device):
         checkpoint = torch.load(filepath, map_location = device)
         
     # load pre-trained model:
-    model = eval("models.{}(pretrained=True)".format(checkpoint['base_model']))
+    #model = eval("models.{}(pretrained=True)".format(checkpoint['base_model']))
+    model, first_classifier_input = initialize_model(checkpoint['base_model'])
     
     # Freeze the feature parameters
     for params in model.parameters():
         params.requires_grad = False
     
     # re-build untrained classifier
-    model.classifier = model_classifier(first_classifier_input = model.classifier.in_features, 
+    model.classifier = model_classifier(first_classifier_input = first_classifier_input, 
                                     hidden_units = checkpoint['hidden_units'],
                                     output_classes = checkpoint['n_output_classes'])
    
